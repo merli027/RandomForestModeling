@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Talks List{% endblock %}
+{% block content %}
+
+  <h2>Ted Talks</h2>
+
+  <ul>
+    {% for talk in talks %}
+      <li>
+        <!-- <a href="/movies/{{ movie.movie_id }}"> -->
+            <a>
+          {{ talk.talk_name }} ({{ talk.speaker_name }})
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+
+{% endblock %}
