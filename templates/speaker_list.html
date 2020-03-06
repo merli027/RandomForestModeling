@@ -5,10 +5,10 @@
   <h2>Ted Talks</h2>
 
   <ul>
-    {% for talk in talks %}
+    {% for speaker in speakers %}
       <li>
             <a>
-          {{ talk.talk_name }} ({{ talk.event }})
+          {{ speaker.speaker_name }} ({{ speaker.speaker_job }})
         </a>
       </li>
     {% endfor %}

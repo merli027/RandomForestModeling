@@ -4,7 +4,7 @@ from jinja2 import StrictUndefined
 
 from flask import Flask, render_template, request, flash, redirect, session
 from flask_debugtoolbar import DebugToolbarExtension
-from model import connect_to_db, db, Talk
+from model import connect_to_db, db, Talk, Speaker
 
 
 app = Flask(__name__)
@@ -24,11 +24,18 @@ def index():
     return render_template("homepage.html")
 
 @app.route("/talks")
-def user_list():
+def talk_list():
     """Show list of talks."""
 
     talks = Talk.query.all()
     return render_template("talk_list.html", talks=talks)
+
+@app.route("/speakers")
+def speaker_list():
+    """Show list of speakers."""
+
+    speakers = Speaker.query.all()
+    return render_template("speaker_list.html", speakers=speakers)
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point
