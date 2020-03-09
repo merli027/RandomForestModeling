@@ -3,7 +3,8 @@
 import datetime
 from sqlalchemy import func
 import pandas as pd
-from model import Talk, Speaker, connect_to_db, db
+import numpy as np
+from model import Talk, Speaker, connect_to_db, db, Rating, Talk_Rating
 from flask import Flask, render_template, request, flash, redirect, session
 from server import app
 
@@ -24,8 +25,6 @@ def load_talks():
         ID=db.session.query(Speaker.speaker_id)
         speaker_ID=ID.filter(Speaker.speaker_name==speaker_name).first()
         speakerID=int(speaker_ID[0])
-        #speakerID=int(Speaker.query.filter(Speaker.speaker_name==speaker_name).first())
-        #db.select([Speaker.columns.speaker_id]).where(Speaker.columSpeakns.speaker_name == speaker_name)
         published_year=int(time.strftime("%Y"))
         talk_name=talks.iloc[i,14]
         duration=int(talks.iloc[i,2])
@@ -49,10 +48,31 @@ def load_talks():
     # Once we're done, we should commit our work
     db.session.commit()
 
-    
+def load_ratings():
+    rating=talks['ratings'].map(eval)
+    rating_seed=rating[2]
+    rating_df=pd.DataFrame(rating_seed)
+    i=0
+    while i < rating_df.shape[0]:
+        rating_id = int(rating_df.iloc[i,0])
+        rating_name = rating_df.iloc[i,1]
+        i+=1
+        rating = Rating(rating_id=rating_id, rating_name=rating_name)
+
+        # We need to add to the session or it won't ever be stored
+        db.session.add(rating)
+
+        # provide some sense of progress
+        if i % 100 == 0:
+            print(i)
+
+    # Once we're done, we should commit our work
+    db.session.commit()
+
 
 if __name__ == "__main__":
     connect_to_db(app)
     db.create_all()
 
 load_talks()
+load_ratings()

@@ -27,7 +27,7 @@ class Speaker(db.Model):
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return f"<Speaker Speaker_id={self.speaker_id} name={self.speaker_name} job={self.speaker_job}>"
+        return f"""< Speaker Speaker_id= {self.speaker_id} name= {self.speaker_name} job= {self.speaker_job} >"""
 
 
 class Talk(db.Model):
@@ -52,11 +52,38 @@ class Talk(db.Model):
 
     def __repr__(self):
         """Provide helpful representation when printed."""
-        return f"""<Talk talk_id={self.talk_id} duration={self.duration} languages={self.languages} 
-                    published_date={self.published_date} event={self.event} talk_name={self.talk_name}
-                    speaker_name={self.speaker_name} speaker_job = {self.speaker_job} num_comments={self.num_comments}
-                    num_views={self.num_views}>"""
+        return f"""< talk_name={self.talk_name} speaker_name={self.speaker_name} >"""
+ 
+class Rating(db.Model):
+    """Rating information."""
 
+    __tablename__ = "rating"
+    rating_id = db.Column(db.Integer,
+                         autoincrement=False,
+                         primary_key=True)
+    rating_name =db.Column(db.String(75))
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+        return f"""< rating_name={self.rating_name} rating_id={self.rating_id} >"""
+
+class Talk_Rating(db.Model):
+    """Rating and talk relationship."""
+
+    __tablename__ = "talk_rating"
+
+    rating_id = db.Column(db.Integer, autoincrement=False,
+                         primary_key=True)
+    rating_count = db.Column(db.Integer)
+    ted_talk_id = db.Column(db.Integer, autoincrement=False,
+                         primary_key=True)
+    db.ForeignKeyConstraint(['rating_id', 'ted_talk_id'], ['rating.rating_id', 'talks.talk_id'])    
+    #talk_rel = db.relationship("Talk", backref='talk_rating')
+    #rate_rel = db.relationship("Rating", backref='talk_rating')
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+        return f"""< rating_id={self.rating_id} rating_count={self.rating_count} ted_talk_id = {self.ted_talk_id} >"""
 #####################################################################
 # Helper functions
 
