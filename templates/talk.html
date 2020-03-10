@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.1/d3.min.js"></script>
 
 <div class="well spaced" style="width:97%;">
 <h1>{{ talk.talk_name }}</h1>
@@ -11,13 +12,12 @@
 
     <p>Talk Information: Duration {{talk.duration}} Number of Views: {{talk.num_views}} Number of comments {{talk.num_comments}}
     </p>
-
+    {% for key, value in rating_dict.items() %}
     <ul>
-      {% for rating in talk_rating %}
       <li>
-        <p>{{ rating.rating_id}} {{rating.rating_count}}</p>
+        <p>Rating {{key}} Count {{value}}</p>
       </li>
-      {% endfor %}
+    {% endfor %}
     </ul>
   
   {% endblock %}

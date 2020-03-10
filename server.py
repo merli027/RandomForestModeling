@@ -42,9 +42,13 @@ def speaker_list():
 def talk_detail(talk_id):
     """Show information of ."""
 
+    rating_dict={}
     talk=Talk.query.get(talk_id)
-    talk_rating=Talk_Rating.query.filter_by(ted_talk_id=talk_id).all()
-    return render_template("talk.html", talk=talk, talk_rating=talk_rating)
+    for r, t in db.session.query(Rating, Talk_Rating).filter(Talk_Rating.rating_id == Rating.rating_id).filter(Talk_Rating.ted_talk_id == talk_id).all():
+        rating_name=r.rating_name
+        rating_count=t.rating_count
+        rating_dict[rating_name]=rating_count
+    return render_template("talk.html", talk=talk, rating_dict=rating_dict)
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point

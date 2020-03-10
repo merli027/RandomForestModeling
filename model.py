@@ -49,6 +49,7 @@ class Talk(db.Model):
     num_comments = db.Column(db.Integer)
     num_views = db.Column(db.Integer)
     speaker = db.relationship("Speaker", backref='talks')
+    #ratings = db.relationship("Rating", secondary = 'talk_ratings', backref="rating")
 
     def __repr__(self):
         """Provide helpful representation when printed."""
