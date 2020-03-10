@@ -6,11 +6,9 @@
 
   <ul>
     {% for talk in talks %}
-      <li>
-            <a>
-          {{ talk.talk_name }} ({{ talk.event }})
-        </a>
-      </li>
+    <li>
+      <a href="/talks/{{ talk.talk_id}}">{{ talk.talk_name }}</a>
+    </li>
     {% endfor %}
   </ul>
 
