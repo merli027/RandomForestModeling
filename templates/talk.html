@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.1/d3.min.js"></script>
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js"></script>
 <div class="well spaced" style="width:97%;">
 <h1>{{ talk.talk_name }}</h1>
-
+<section id="talk-id" >{{talk.talk_id}}</section>
 <div class="row">
 
   <div class="col-xs-12 col-lg-6">
@@ -17,12 +18,17 @@
 </div>
 <div id="Area" ></div>
 <script>
+  myvar = '{{rating_list|tojson}}';
+  var parsed = JSON.parse(myvar);
+
   var svG=d3.select('#Area')
     .append("svg")
       .attr("width", 400)
       .attr("height", 200)
   //Getting data
-  var ratings=[{'name':'Funny', 'count': 19645}];
+
+
+  var ratings=parsed;
   svG
     .selectAll("whatever")
     .data(ratings)

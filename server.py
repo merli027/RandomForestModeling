@@ -2,7 +2,7 @@
 
 from jinja2 import StrictUndefined
 
-from flask import Flask, render_template, request, flash, redirect, session
+from flask import Flask, render_template, request, flash, redirect, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from model import connect_to_db, db, Talk, Speaker, Rating, Talk_Rating
 
@@ -51,7 +51,7 @@ def talk_detail(talk_id):
         rating_dict['name']=rating_name
         rating_dict['count']=rating_count
         rating_list.append(rating_dict)
-        #rating_dict[rating_name]=rating_count
+
     return render_template("talk.html", talk=talk, rating_list=rating_list)
 
 if __name__ == "__main__":
