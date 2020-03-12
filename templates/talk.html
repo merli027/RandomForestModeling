@@ -20,26 +20,68 @@
 <script>
   myvar = '{{rating_list|tojson}}';
   var parsed = JSON.parse(myvar);
+  var ratings=parsed;
+
+// set the dimensions and margins of the graph
+var margin = {top: 10, right: 40, bottom: 30, left: 50},
+    width = 1000 - margin.left - margin.right,
+    height = 800 - margin.top - margin.bottom;
+
 
   var svG=d3.select('#Area')
     .append("svg")
-      .attr("width", 400)
-      .attr("height", 200)
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
   //Getting data
-
-
-  var ratings=parsed;
+  var sqrtScale = d3.scaleSqrt()
+	  .domain([0, 20000])
+	  .range([5, 40]);
+  var linearScale = d3.scaleLinear()
+	  .domain([0, 20000])
+	  .range([0, 700]);
+  var colorize = function(d) {if (d.name == "Funny") {return "orange";}
+                              if (d.name == "Beautiful") {return "steelblue"}
+                              if (d.name == "Ingenious") {return "yellow"}
+                              if (d.name == "Courageous") {return "green"}
+                              if (d.name == "Longwinded") {return "red"}
+                              if (d.name == "Persuasive") {return "purple"}
+                              if (d.name == "Unconvincing") {return "Chartreuse"}
+                              if (d.name == "Fascinating") {return "Chocolate"}
+                              if (d.name == "Inspiring") {return "Olive"}
+                              if (d.name == "Obnoxious") {return "Lime"}
+                              if (d.name == "OK") {return "Aqua"}
+                              if (d.name == "Informative") {return "Gold"}
+                              if (d.name == "Confusing") {return "Salmon"}
+                              if (d.name == "Jaw-dropping") {return "MistyRose"}
+                              }
   svG
     .selectAll("whatever")
     .data(ratings)
     .enter()
     .append("circle")
       .attr('r', function(d) {
-        var scaleFactor = 0.0005;
-        return d.count * scaleFactor;
+        return sqrtScale(d.count);
         })
-      .attr('cx', function(d, i) {
-        return i * 20;
-  });
+      .attr('cx', function(d,i) {
+        return i*65;
+        })
+      .attr('cy', 50)
+      .attr("fill", colorize);
+  svG
+      .selectAll("whatever")
+      .data(ratings)
+      .enter()
+      .append("text")
+        .attr('y', 5)
+        .attr("text-anchor", "middle")
+        .attr('x', function(d,i){
+          return (i*65);
+          })
+        .text(function(d){
+          return d.count;
+        });
 </script>
   {% endblock %}
