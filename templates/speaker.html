@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.1/d3.min.js"></script>
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="d3.legend.js"></script>
+<div class="well spaced" style="width:97%;">
+<h1>{{ speaker.speaker_name }}</h1>
+<div class="row">
+
+  <div class="col-xs-12 col-lg-6">
+    <p>Occupation: {{ speaker.speaker_job }}</p>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.1/d3.min.js"></script>
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="d3.legend.js"></script>
+<div class="well spaced" style="width:97%;">
+<h1>{{ speaker.speaker_name }}</h1>
+<div class="row">
+
+  <div class="col-xs-12 col-lg-6">
+    <h2>Please select two talks</h2>
+    <form>
+      <div>
+        Ted Talk 1
+        <input type="text" name="ted_talk1" id="ted_talk1">
+      </div>
+  
+      <div>
+        Ted Talk 2
+        <input type="text" name="ted_talk2" id="ted_talk2">
+      </div>
+      <input type="submit">
+    </form>
+
+</div>
+
+<section id="compare_talks">
+    <h3>Talk Comparison</h3>
+
+    <dl>
+      <dt>Talk Name</dt>
+      <dd id="talk_name1">Unknown</dd>
+      <dd id="talk_name2">Unknown</dd>
+
+      <dt>Number of Comments</dt>
+      <dd id="comments1">Unknown</dd>
+      <dd id="comments2">Unknown</dd>
+
+      <dt>Number of Views</dt>
+      <dd id="views1">Unknown</dd>
+      <dd id="views2">Unknown</dd>
+
+      <dt>Talk Duration</dt>
+      <dd id="duration1">Unknown</dd>
+      <dd id="duration2">Unknown</dd>
+
+
+    </dl>
+  </section>
+{% endblock %}

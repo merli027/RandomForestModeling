@@ -38,6 +38,29 @@ def speaker_list():
     speakers = Speaker.query.all()
     return render_template("speaker_list.html", speakers=speakers)
 
+@app.route("/compare")
+def compare_talks(talk1_id, talk2_id):
+    """Compare talks."""
+
+    talk1=Talk.query.get(talk1_id)
+    talk2=Talk.query.get(talk2_id)
+    if talk1 and talk2:
+        return jsonify({"status": "success",
+                        "talk_name1": talk1.talk_name,
+                        "num_comments1": talk1.num_comments,
+                        "num_views1": talk1.num_views,
+                        "duration1": talk1.duration,
+                        "talk_name2": talk2.talk_name,
+                        "num_comments2": talk2.num_comments,
+                        "num_views2": talk2.num_views,
+                        "duration2": talk2.duration}
+                        )
+    else:
+        return jsonify({"status": "error",
+                        "message": "No talk found with that ID"})
+
+    return render_template("compare.html", talk1=talk1, talk2=talk2)
+
 @app.route("/talks/<int:talk_id>", methods=['GET'])
 def talk_detail(talk_id):
     """Show information of ."""
@@ -53,6 +76,14 @@ def talk_detail(talk_id):
         rating_list.append(rating_dict)
 
     return render_template("talk.html", talk=talk, rating_list=rating_list)
+
+@app.route("/speakers/<int:speaker_id>", methods=['GET'])
+def speaker_detail(speaker_id):
+    """Show information of ."""
+
+    speaker=Speaker.query.get(speaker_id)
+
+    return render_template("speaker.html", speaker=speaker)
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point

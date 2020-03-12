@@ -1,17 +1,15 @@
 {% extends 'base.html' %}
-{% block title %}Talks List{% endblock %}
+{% block title %}Speaker List{% endblock %}
 {% block content %}
 
-  <h2>Ted Talks</h2>
-
+  <h2>Speakers</h2>
   <ul>
     {% for speaker in speakers %}
-      <li>
-            <a>
-          {{ speaker.speaker_name }} ({{ speaker.speaker_job }})
-        </a>
-      </li>
+    <li>
+      <a href="/speakers/{{ speaker.speaker_id}}">{{ speaker.speaker_name }}</a>
+    </li>
     {% endfor %}
   </ul>
-
+  
 {% endblock %}
+
