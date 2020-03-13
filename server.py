@@ -38,9 +38,45 @@ def speaker_list():
     speakers = Speaker.query.all()
     return render_template("speaker_list.html", speakers=speakers)
 
+@app.route("/find_speaker")
+def find_speaker():
+    """Find speaker."""
+
+    return render_template("find_speaker.html")
+
+@app.route("/find_speaker/speaker")
+def speaker(speaker):
+    """Find speaker."""
+    speakers=Speaker.query.get(speaker)
+    #talks=Talk.query(Talk.talk_name).filter(Talk.speakerID==speaker.speaker_id).all()
+
+    if speakers:
+        return jsonify({"status": "success",
+                        "speaker_job": speakers.speaker_job,
+                        "speaker_id": speakers.speaker_id,
+                        "talks": speakers.talk.talk_name})
+    else:
+        return jsonify({"status": "error",
+                        "message": "No talk found with that ID"})
+
+    return render_template("find_speaker.html", speaker=speaker)
+
+
 @app.route("/compare/<int:talk1_id>/<int:talk2_id>")
 def compare_talks(talk1_id, talk2_id):
     """Compare talks."""
+
+    rating_dict1={}
+    for r, t in db.session.query(Rating, Talk_Rating).filter(Talk_Rating.rating_id == Rating.rating_id).filter(Talk_Rating.ted_talk_id == talk1_id).all():
+        rating_name=r.rating_name
+        rating_count=t.rating_count
+        rating_dict1[rating_name]=rating_count
+    
+    rating_dict2={}
+    for r, t in db.session.query(Rating, Talk_Rating).filter(Talk_Rating.rating_id == Rating.rating_id).filter(Talk_Rating.ted_talk_id == talk2_id).all():
+        rating_name=r.rating_name
+        rating_count=t.rating_count
+        rating_dict2[rating_name]=rating_count
     
     talk1=Talk.query.get(int(talk1_id))
     talk2=Talk.query.get(int(talk2_id))
@@ -53,13 +89,37 @@ def compare_talks(talk1_id, talk2_id):
                         "talk_name2": talk2.talk_name,
                         "num_comments2": talk2.num_comments,
                         "num_views2": talk2.num_views,
-                        "duration2": talk2.duration}
-                        )
+                        "duration2": talk2.duration,
+                        "Funny1": rating_dict1["Funny"],
+                        "Funny2": rating_dict2["Funny"],
+                        "OK1": rating_dict1["OK"],
+                        "OK2": rating_dict2["OK"],
+                        "Beautiful1": rating_dict1["Beautiful"],
+                        "Beautiful2": rating_dict2["Beautiful"],
+                        "Ingenious1": rating_dict1["Ingenious"],
+                        "Ingenious2": rating_dict2["Ingenious"],
+                        "Courageous1": rating_dict1["Courageous"],
+                        "Courageous2": rating_dict2["Courageous"],
+                        "Longwinded1": rating_dict1["Longwinded"],
+                        "Longwinded2": rating_dict2["Longwinded"],
+                        "Confusing1": rating_dict1["Confusing"],
+                        "Confusing2": rating_dict2["Confusing"],
+                        "Informative1": rating_dict1["Informative"],
+                        "Informative2": rating_dict2["Informative"],
+                        "Fascinating1": rating_dict1["Fascinating"],
+                        "Fascinating2": rating_dict2["Fascinating"],
+                        "Unconvincing1": rating_dict1["Unconvincing"],
+                        "Unconvincing2": rating_dict2["Unconvincing"],
+                        "Persuasive1": rating_dict1["Persuasive"],
+                        "Persuasive2": rating_dict2["Persuasive"],
+                        "Jaw-Dropping1": rating_dict1["Jaw-dropping"],
+                        "Jaw-Dropping2": rating_dict2["Jaw-dropping"],
+        })
     else:
         return jsonify({"status": "error",
                         "message": "No talk found with that ID"})
 
-    return render_template("compare.html", talk1=talk1, talk2=talk2)
+    #return render_template("compare.html", talk1=talk1, talk2=talk2)
 
 @app.route("/compare")
 def compare():

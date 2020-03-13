@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.1/d3.min.js"></script>
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+<script>
+    "use strict";
+    </script>
+    <script src="/static/ajaxspeaker.js"></script>
+<div class="well spaced" style="width:97%;">
+<h1>Speaker Information</h1>
+<div class="row">
+
+  <div class="col-xs-12 col-lg-6">
+    <h2>Find Speaker</h2>
+    <form id="get-speaker">
+      <div>
+        Find a speaker: Input name as First Last Example: (Hans Rosling)
+        <input type="text" name="speaker" id="speaker">
+      </div>
+      <input type="submit">
+    </form>
+
+</div>
+
+<section id="speaker-info">
+    <h3>Speaker Information</h3>
+
+    <dl>
+      <dt>Speaker Occupation</dt>
+      <dd id="speaker-job">Unknown</dd>
+
+      <dt>Speaker Id</dt>
+      <dd id="speaker-id">Unknown</dd>
+
+      <dt>Talks</dt>
+      <dd id="talks">Unknown</dd>
+      <dd id="message">Unknown</dd>
+
+
+    </dl>
+  </section>
+
+{% endblock %}

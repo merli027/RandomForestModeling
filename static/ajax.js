@@ -14,6 +14,9 @@ function showTalk(evt){
         $('#views2').text(data.num_views2);
         $('#duration1').text(data.duration1);
         $('#duration2').text(data.duration2);
+        $('#funny1').text(data.Funny1);
+        $('#funny2').text(data.Funny2);     
+
     });
 }
 
