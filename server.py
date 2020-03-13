@@ -38,12 +38,12 @@ def speaker_list():
     speakers = Speaker.query.all()
     return render_template("speaker_list.html", speakers=speakers)
 
-@app.route("/compare")
+@app.route("/compare/<int:talk1_id>/<int:talk2_id>")
 def compare_talks(talk1_id, talk2_id):
     """Compare talks."""
-
-    talk1=Talk.query.get(talk1_id)
-    talk2=Talk.query.get(talk2_id)
+    
+    talk1=Talk.query.get(int(talk1_id))
+    talk2=Talk.query.get(int(talk2_id))
     if talk1 and talk2:
         return jsonify({"status": "success",
                         "talk_name1": talk1.talk_name,
@@ -61,9 +61,13 @@ def compare_talks(talk1_id, talk2_id):
 
     return render_template("compare.html", talk1=talk1, talk2=talk2)
 
+@app.route("/compare")
+def compare():
+    return render_template("compare.html")
+
 @app.route("/talks/<int:talk_id>", methods=['GET'])
 def talk_detail(talk_id):
-    """Show information of ."""
+    """Show information of talk."""
 
     rating_list=[]
     talk=Talk.query.get(talk_id)

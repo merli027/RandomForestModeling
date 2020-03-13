@@ -2,11 +2,11 @@
 {% block title %}Speaker List{% endblock %}
 {% block content %}
 
-  <h2>Speakers</h2>
+  <h2>Events</h2>
   <ul>
-    {% for speaker in speakers %}
+    {% for event in events %}
     <li>
-      <p>{{ speaker.speaker_name}}</p> 
+      <p>{{ event}}</p> 
     </li>
     {% endfor %}
   </ul>

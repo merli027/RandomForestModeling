@@ -1,15 +1,20 @@
-function showHuman(evt){
+function showTalk(evt){
     evt.preventDefault();
  
-    const selectedId = $('#ted_talk1').val();
-    const selectedId = $('#ted_talk2').val();
-    let url = `/compare`;
+    const selectedId1 = $('#ted_talk1').val();
+    const selectedId2 = $('#ted_talk2').val();
+    let url = `/compare/${selectedId1}/${selectedId2}`;
 
     $.get(url, (data) => {
-        $('#fname').text(data.fname);
-        $('#lname').text(data.lname);
-        $('#email').text(data.email);
+        $('#talk_name1').text(data.talk_name1);
+        $('#talk_name2').text(data.talk_name2);
+        $('#comments1').text(data.num_comments1);
+        $('#comments2').text(data.num_comments2);
+        $('#views1').text(data.num_views1);
+        $('#views2').text(data.num_views2);
+        $('#duration1').text(data.duration1);
+        $('#duration2').text(data.duration2);
     });
 }
 
-$("#get-human").on('submit', showHuman);
+$("#get-talks").on('submit', showTalk);

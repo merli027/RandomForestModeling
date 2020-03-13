@@ -3,21 +3,20 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.1/d3.min.js"></script>
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js"></script>
-<script src="d3.legend.js"></script>
 <div class="well spaced" style="width:97%;">
-<h1>{{ speaker.speaker_name }}</h1>
+<h1>Compare talks</h1>
 <div class="row">
 
   <div class="col-xs-12 col-lg-6">
     <h2>Please select two talks</h2>
-    <form>
+    <form id="get-talks">
       <div>
-        Ted Talk 1
+        Ted Talk 1 (Select an ID from 0-2549)
         <input type="text" name="ted_talk1" id="ted_talk1">
       </div>
   
       <div>
-        Ted Talk 2
+        Ted Talk 2 (Select an ID from 0-2549)
         <input type="text" name="ted_talk2" id="ted_talk2">
       </div>
       <input type="submit">
@@ -48,4 +47,8 @@
 
     </dl>
   </section>
+  <script>
+    "use strict";
+    </script>
+    <script src="/static/ajax.js"></script>
 {% endblock %}
