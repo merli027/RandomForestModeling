@@ -3,7 +3,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.1/d3.min.js"></script>
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js"></script>
-<script src="d3.legend.js"></script>
 <div class="well spaced" style="width:97%;">
 <h1>{{ talk.talk_name }}</h1>
 <div class="row">
@@ -18,12 +17,6 @@
     <!-- <p> {{rating_list}}</p> -->
 </div>
 <div id="Area" ></div>
-<style>
-.legend rect{
-  fill:white;
-  stroke:black;
-  opacity:0.8;}
-</style>
 <script>
   myvar = '{{rating_list|tojson}}';
   var parsed = JSON.parse(myvar);
@@ -77,7 +70,6 @@ var margin = {top: 10, right: 40, bottom: 30, left: 50},
         })
       .attr('cy', 50)
       .attr("fill", colorize)
-      .attr("data-legend", function(d) {return d.name});
   svg
       .selectAll("whatever")
       .data(ratings)
@@ -106,14 +98,5 @@ var margin = {top: 10, right: 40, bottom: 30, left: 50},
         .text(function(d){
           return d.name;
         });
-//  svg
-//     .selectAll(".legend")
-//     .data(ratings)
-//     .enter()
-//     .append("g")
-//     .attr("class","legend")
-//     .attr("transform","translate(50,30)")
-//     .style("font-size","12px")
-//     .call(d3.legend);
 </script>
   {% endblock %}

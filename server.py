@@ -66,17 +66,23 @@ def speaker(speaker):
 def compare_talks(talk1_id, talk2_id):
     """Compare talks."""
 
-    rating_dict1={}
+    rating_list1=[]
     for r, t in db.session.query(Rating, Talk_Rating).filter(Talk_Rating.rating_id == Rating.rating_id).filter(Talk_Rating.ted_talk_id == talk1_id).all():
+        rating_dict1={}
         rating_name=r.rating_name
         rating_count=t.rating_count
-        rating_dict1[rating_name]=rating_count
+        rating_dict1['name']=rating_name
+        rating_dict1['count']=rating_count
+        rating_list1.append(rating_dict1)
     
-    rating_dict2={}
+    rating_list2=[]
     for r, t in db.session.query(Rating, Talk_Rating).filter(Talk_Rating.rating_id == Rating.rating_id).filter(Talk_Rating.ted_talk_id == talk2_id).all():
+        rating_dict2={}
         rating_name=r.rating_name
         rating_count=t.rating_count
-        rating_dict2[rating_name]=rating_count
+        rating_dict2['name']=rating_name
+        rating_dict2['count']=rating_count
+        rating_list2.append(rating_dict2)
     
     talk1=Talk.query.get(int(talk1_id))
     talk2=Talk.query.get(int(talk2_id))
@@ -90,30 +96,8 @@ def compare_talks(talk1_id, talk2_id):
                         "num_comments2": talk2.num_comments,
                         "num_views2": talk2.num_views,
                         "duration2": talk2.duration,
-                        "Funny1": rating_dict1["Funny"],
-                        "Funny2": rating_dict2["Funny"],
-                        "OK1": rating_dict1["OK"],
-                        "OK2": rating_dict2["OK"],
-                        "Beautiful1": rating_dict1["Beautiful"],
-                        "Beautiful2": rating_dict2["Beautiful"],
-                        "Ingenious1": rating_dict1["Ingenious"],
-                        "Ingenious2": rating_dict2["Ingenious"],
-                        "Courageous1": rating_dict1["Courageous"],
-                        "Courageous2": rating_dict2["Courageous"],
-                        "Longwinded1": rating_dict1["Longwinded"],
-                        "Longwinded2": rating_dict2["Longwinded"],
-                        "Confusing1": rating_dict1["Confusing"],
-                        "Confusing2": rating_dict2["Confusing"],
-                        "Informative1": rating_dict1["Informative"],
-                        "Informative2": rating_dict2["Informative"],
-                        "Fascinating1": rating_dict1["Fascinating"],
-                        "Fascinating2": rating_dict2["Fascinating"],
-                        "Unconvincing1": rating_dict1["Unconvincing"],
-                        "Unconvincing2": rating_dict2["Unconvincing"],
-                        "Persuasive1": rating_dict1["Persuasive"],
-                        "Persuasive2": rating_dict2["Persuasive"],
-                        "Jaw-Dropping1": rating_dict1["Jaw-dropping"],
-                        "Jaw-Dropping2": rating_dict2["Jaw-dropping"],
+                        "rating_list1" : rating_list1,
+                        "rating_list2" : rating_list2,
         })
     else:
         return jsonify({"status": "error",
