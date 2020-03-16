@@ -3,7 +3,7 @@ function showTalk(evt){
  
     const selectedId1 = $('#ted_talk1').val();
     const selectedId2 = $('#ted_talk2').val();
-    let url = `/compare/${selectedId1}/${selectedId2}`;
+    const url = `/compare/${selectedId1}/${selectedId2}`;
 
     $.get(url, (data) => {
         $('#talk_name1').text(data.talk_name1);
@@ -16,28 +16,33 @@ function showTalk(evt){
         $('#duration2').text(data.duration2);
         console.log(data.rating_list1);
         // myvar = '{{data.rating_dict1|tojson}}';
-        let rating1 = data.rating_list1;
-        let rating2 = data.rating_list2;
+        const rating1 = data.rating_list1;
+        const rating2 = data.rating_list2;
 
-        
-        var margin = {top: 20, right: 20, bottom: 70, left: 40},
+        document.querySelector("#Area1").innerHTML = "";
+        const margin = {top: 20, right: 20, bottom: 70, left: 40},
             width = 600 - margin.left - margin.right,
-            height = 300 - margin.top - margin.bottom;
-        var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
-        var y = d3.scale.linear().range([height, 0]);
-        var yAxis = d3.svg.axis()
-            .scale(y)
-            .orient("left")
-            .ticks(10);
+            height = 400 - margin.top - margin.bottom;
+        let x = d3.scale.ordinal()
+                .domain(rating1.map(function(d) { return d.name; }))
+                .rangeRoundBands([0, width], .05);
+        let y = d3.scaleLinear()
+                .domain([0, d3.max(rating1, function(d) { return d.count; })])
+                .range([height, 0]);
 
-        var svg = d3.select("body").append("svg")
+        var yAxis = d3.axisLeft()
+            .scale(y)
+        
+        var xAxis = d3.axisBottom()
+            .scale(x)
+
+        let svg = d3.select("#Area1").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
           .append("g")
             .attr("transform", 
                   "translate(" + margin.left + "," + margin.top + ")");
-        y.domain([0, d3.max(rating1, function(d) { return d.count; })]);
-        x.domain(rating1.map(function(d) { return d.name; }));
+
         svg.selectAll("whatever")
             .data(rating1)
             .enter().append("rect")
@@ -46,18 +51,37 @@ function showTalk(evt){
             .attr("width", x.rangeBand())
             .attr("y", function(d) { return y(d.count); })
             .attr("height", function(d) { return height - y(d.count); });
-        svg.selectAll("whatever")
-            .data(rating2)
-            .enter().append("rect")
-            .style("fill", "purple")
-            .attr("x", function(d) { return x(d.name); })
-            .attr("width", x.rangeBand())
-            .attr("y", function(d) { return y(d.count); })
-            .attr("height", function(d) { return height - y(d.count); });
-  
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .style("text-anchor", "middle")
+            .attr("font-size", "10px")
+            .call(xAxis)
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+          .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("Count");
+        svg.append("text")
+            .attr("transform", "translate(100,0)")
+            .attr("x", 50)
+            .attr("y", 0)
+            .attr("font-size", "24px")
+            .text(data.talk_name1)
 
-        // $('#funny1').text(data.Funny1);
-        // $('#funny2').text(data.Funny2);     
+        // svg.selectAll("whatever")
+        //     .data(rating2)
+        //     .enter().append("rect")
+        //     .style("fill", "purple")
+        //     .attr("x", function(d) { return x(d.name); })
+        //     .attr("width", x.rangeBand())
+        //     .attr("y", function(d) { return y(d.count); })
+        //     .attr("height", function(d) { return height - y(d.count); });
+      
 
     });
 }
