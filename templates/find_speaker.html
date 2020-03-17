@@ -3,10 +3,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.1/d3.min.js"></script>
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js"></script>
-<script>
-    "use strict";
-    </script>
-    <script src="/static/ajaxspeaker.js"></script>
 <div class="well spaced" style="width:97%;">
 <h1>Speaker Information</h1>
 <div class="row">
@@ -34,11 +30,14 @@
       <dd id="speaker-id">Unknown</dd>
 
       <dt>Talks</dt>
-      <dd id="talks">Unknown</dd>
-      <dd id="message">Unknown</dd>
+      <dd id="talks"></dd>
 
 
     </dl>
   </section>
+  <script>
+    "use strict";
+    </script>
+    <script src="/static/ajaxspeaker.js"></script>
 
 {% endblock %}

@@ -1,18 +1,29 @@
 function showSpeaker(evt){
     evt.preventDefault();
  
-    const selectedId = $('#speaker').val();
-    let url = `/find_speaker/${selectedId}`;
-    console.log(Hi)
+    let speakerName = $('#speaker').val().replace(/\s+/g, '-');
+    let url = `/find_speaker/${speakerName}`;
+    console.log(speakerName);
 
     $.get(url, (data) => {
         $('#speaker-id').text(data.speaker_id);
         $('#speaker-job').text(data.speaker_job);
-        $('#talks').text(data.talks);
-        $('#message').text(data.message);
-        console.log(Hi)
+        
+        document.querySelector("#talks").innerHTML = "";
+        const list = document.createElement("ul");
+        for(let talk of data.talks){
+            const listText = document.createTextNode(talk);
+            const listEl = document.createElement("li");
+            listEl.appendChild(listText);
+            list.appendChild(listEl);
+        }
+
+        document.getElementById("talks").appendChild(list);
+        console.log("Hi");
     })
 };
 $("#get-speaker").on('submit', showSpeaker);
+
+
 
 

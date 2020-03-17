@@ -44,22 +44,25 @@ def find_speaker():
 
     return render_template("find_speaker.html")
 
-@app.route("/find_speaker/speaker")
+@app.route("/find_speaker/<speaker>")
 def speaker(speaker):
     """Find speaker."""
-    speakers=Speaker.query.get(speaker)
-    #talks=Talk.query(Talk.talk_name).filter(Talk.speakerID==speaker.speaker_id).all()
+    speaker=speaker.split("-")
+    speaker=" ".join(speaker)
+    speakers=Speaker.query.filter(Speaker.speaker_name == speaker).first()
+    talks=Talk.query.filter(Talk.speakerID==speakers.speaker_id).all()
+    talk_list=[]
+    for talk in talks:
+        talk_list.append(talk.talk_name)
 
     if speakers:
         return jsonify({"status": "success",
                         "speaker_job": speakers.speaker_job,
                         "speaker_id": speakers.speaker_id,
-                        "talks": speakers.talk.talk_name})
+                        "talks": talk_list})
     else:
         return jsonify({"status": "error",
                         "message": "No talk found with that ID"})
-
-    return render_template("find_speaker.html", speaker=speaker)
 
 
 @app.route("/compare/<int:talk1_id>/<int:talk2_id>")
