@@ -68,27 +68,37 @@ def speaker(speaker):
 @app.route("/compare/<int:talk1_id>/<int:talk2_id>")
 def compare_talks(talk1_id, talk2_id):
     """Compare talks."""
-
+    talk1=Talk.query.get(int(talk1_id))
+    talk2=Talk.query.get(int(talk2_id))
+    
+    rating_dict1_complete={}
+    rating_dict1_complete["name"]=talk1.talk_name
     rating_list1=[]
     for r, t in db.session.query(Rating, Talk_Rating).filter(Talk_Rating.rating_id == Rating.rating_id).filter(Talk_Rating.ted_talk_id == talk1_id).all():
         rating_dict1={}
         rating_name=r.rating_name
         rating_count=t.rating_count
-        rating_dict1['name']=rating_name
+        rating_dict1['rating']=rating_name
         rating_dict1['count']=rating_count
         rating_list1.append(rating_dict1)
+    rating_dict1_complete["values"]= rating_list1
     
+    rating_dict2_complete={}
+    rating_dict2_complete["name"]=talk2.talk_name
     rating_list2=[]
     for r, t in db.session.query(Rating, Talk_Rating).filter(Talk_Rating.rating_id == Rating.rating_id).filter(Talk_Rating.ted_talk_id == talk2_id).all():
         rating_dict2={}
         rating_name=r.rating_name
         rating_count=t.rating_count
-        rating_dict2['name']=rating_name
+        rating_dict2['rating']=rating_name
         rating_dict2['count']=rating_count
         rating_list2.append(rating_dict2)
-    
-    talk1=Talk.query.get(int(talk1_id))
-    talk2=Talk.query.get(int(talk2_id))
+    rating_dict2_complete["values"]= rating_list2
+
+    rating_list=[]
+    rating_list.append(rating_dict1_complete)
+    rating_list.append(rating_dict2_complete)
+
     if talk1 and talk2:
         return jsonify({"status": "success",
                         "talk_name1": talk1.talk_name,
@@ -99,8 +109,7 @@ def compare_talks(talk1_id, talk2_id):
                         "num_comments2": talk2.num_comments,
                         "num_views2": talk2.num_views,
                         "duration2": talk2.duration,
-                        "rating_list1" : rating_list1,
-                        "rating_list2" : rating_list2,
+                        "rating_list" : rating_list
         })
     else:
         return jsonify({"status": "error",
