@@ -1,20 +1,34 @@
 {% extends 'base.html' %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./bootstrap-styles.css">
 {% block title %}Homepage{% endblock %}
 {% block content %}
-
-    <h1>Ted Talks</h1>
-
-    <h2>Talks</h2>
-    <p><a href="/talks">View all talks</a></p>
-
-    <h2>Speakers</h2>
-    <p><a href="/speakers">View all Speakers</a></p>
-
-    <h2>Compare talks</h2>
-    <p><a href="/compare">Compare Talks</a></p>
-
-    <h2>Speaker Information</h2>
-    <p><a href="/find_speaker">Find speaker information</a></p>
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <a id = "ubermelon" class="navbar-brand" href="#">TedTalks</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/talks">Talks</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/speakers">Speakers</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/compare">Compare</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav justify-content-end">
+        <li class="nav-item">
+          <a class="nav-link" href="/find_speaker">Find Speaker</a>
+        </li>
+    </ul>
+    </div>
+    </nav>
 
 
 {% endblock %}
