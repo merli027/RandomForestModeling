@@ -38,13 +38,16 @@ class Talk(db.Model):
     talk_id = db.Column(db.Integer,
                          autoincrement=True,
                          primary_key=True)
-    duration = db.Column(db.Integer)
+    duration_min = db.Column(db.Integer)
+    duration_sec = db.Column(db.Integer)
     speakerID=db.Column(db.Integer, db.ForeignKey('speakers.speaker_id'))
     languages = db.Column(db.Integer)
     published_month= db.Column(db.Integer)
     published_day= db.Column(db.Integer)
     published_year= db.Column(db.Integer)
     event = db.Column(db.String(60))
+    description = db.Column(db.String(1000))
+    url = db.Column(db.String(500))
     talk_name= db.Column(db.String(200))
     num_comments = db.Column(db.Integer)
     num_views = db.Column(db.Integer)

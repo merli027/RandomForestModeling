@@ -18,7 +18,9 @@ def load_talks():
     
     i=0
     while i < talks.shape[0]:
-        time=(datetime.datetime.fromtimestamp(int(talks.iloc[i][4])))
+        time=(datetime.datetime.fromtimestamp(int(talks.iloc[i][9])))
+        description=talks.iloc[i][1]
+        url=talks.iloc[i][15]
         published_month=int(time.strftime("%w"))
         published_day=int(time.strftime("%m"))
         speaker_name=talks.iloc[i,6]
@@ -27,16 +29,17 @@ def load_talks():
         speakerID=int(speaker_ID[0])
         published_year=int(time.strftime("%Y"))
         talk_name=talks.iloc[i,14]
-        duration=int(talks.iloc[i,2])
+        duration_min=int(talks.iloc[i,2]//60)
+        duration_sec=int(talks.iloc[i,2]%60)
         event=talks.iloc[i,3]
         languages=int(talks.iloc[i,5])
-        num_views=int(talks.iloc[i,0])
-        num_comments=int(talks.iloc[i,16])
+        num_views=int(talks.iloc[i,16])
+        num_comments=int(talks.iloc[i,0])
         talk_id=i
         i+=1
         talk = Talk(talk_id=talk_id, speakerID=speakerID, published_month=published_month, talk_name=talk_name,
-                    duration = duration, event=event, languages=languages, num_views=num_views,
-                    num_comments=num_comments, published_day=published_day, published_year=published_year)
+                    duration_min =duration_min,duration_sec=duration_sec, event=event, languages=languages, num_views=num_views, url=url,
+                    num_comments=num_comments, published_day=published_day, published_year=published_year, description=description)
 
         # We need to add to the session or it won't ever be stored
         db.session.add(talk)

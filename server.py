@@ -98,17 +98,22 @@ def compare_talks(talk1_id, talk2_id):
     rating_list=[]
     rating_list.append(rating_dict1_complete)
     rating_list.append(rating_dict2_complete)
-
+    duration1=[]
+    duration1.append(talk1.duration_min)
+    duration1.append(talk1.duration_sec)
+    duration2=[]
+    duration2.append(talk2.duration_min)
+    duration2.append(talk2.duration_sec)
     if talk1 and talk2:
         return jsonify({"status": "success",
                         "talk_name1": talk1.talk_name,
                         "num_comments1": talk1.num_comments,
                         "num_views1": talk1.num_views,
-                        "duration1": talk1.duration,
+                        "duration1": duration1,
                         "talk_name2": talk2.talk_name,
                         "num_comments2": talk2.num_comments,
                         "num_views2": talk2.num_views,
-                        "duration2": talk2.duration,
+                        "duration2": duration2,
                         "rating_list" : rating_list
         })
     else:

@@ -19,7 +19,6 @@ function showSpeaker(evt){
         }
 
         document.getElementById("talks").appendChild(list);
-        console.log("Hi");
     })
 };
 $("#get-speaker").on('submit', showSpeaker);

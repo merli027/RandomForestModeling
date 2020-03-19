@@ -12,8 +12,10 @@ function showTalk(evt){
         $('#comments2').text(data.num_comments2);
         $('#views1').text(data.num_views1);
         $('#views2').text(data.num_views2);
-        $('#duration1').text(data.duration1);
-        $('#duration2').text(data.duration2);
+        duration1=data.duration1[0]+" min "+data.duration1[1]+" sec"
+        duration2=data.duration2[0]+" min "+data.duration2[1]+" sec"
+        $('#duration1').text(duration1);
+        $('#duration2').text(duration2);
  
  
         const ratingList = data.rating_list;
