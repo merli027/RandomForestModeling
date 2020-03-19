@@ -107,12 +107,12 @@ def compare_talks(talk1_id, talk2_id):
     if talk1 and talk2:
         return jsonify({"status": "success",
                         "talk_name1": talk1.talk_name,
-                        "num_comments1": talk1.num_comments,
-                        "num_views1": talk1.num_views,
+                        "num_comments1": (f"{talk1.num_comments:,d}"),
+                        "num_views1": (f"{talk1.num_views:,d}"),
                         "duration1": duration1,
                         "talk_name2": talk2.talk_name,
-                        "num_comments2": talk2.num_comments,
-                        "num_views2": talk2.num_views,
+                        "num_comments2": (f"{talk2.num_comments:,d}"),
+                        "num_views2": (f"{talk2.num_views:,d}"),
                         "duration2": duration2,
                         "rating_list" : rating_list
         })
