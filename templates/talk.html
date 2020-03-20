@@ -3,19 +3,37 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.1/d3.min.js"></script>
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js"></script>
-<div class="well spaced" style="width:97%;">
-<h1>{{ talk.talk_name }}</h1>
-<div class="row">
+<div class="container" style="width:97%;">
+  <div class="row">
+    <div class="col">
+      <h1>{{ talk.talk_name }}</h1>
+      <hr>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h1>Description</h1>
+      {{talk.description}}
+    </div>
+    <div class="col">
+      <h1>Statistics</h1>
+      <p>Released Year: {{ talk.published_year }}</p>
+      <p>Duration {{talk.duration_min}} min {{talk.duration_sec}} sec</p>
+      <p>Number of Views: {{"{:,d}".format(talk.num_views)}} </p>
+      <p>Number of comments {{"{:,d}".format(talk.num_comments)}}</p>
+      <p>Speaker: {{talk.speaker.speaker_name}}</p>
+    </div>
+  </div>
+  <div class="row justify-content-md-center">
+    <div class="col">
+      <h1>Ratings</h1>
+      <div id="Area" ></div>
+    </div>
+  </div>
+  </div>
 
-  <div class="col-xs-12 col-lg-6">
-    <p>Released Year: {{ talk.published_year }}</p>
-    <p>Talk Information: Duration {{talk.duration_min}} min {{talk.duration_sec}} sec</p>
-    <p>Number of Views: {{"{:,d}".format(talk.num_views)}} </p>
-    <p>Number of comments {{"{:,d}".format(talk.num_comments)}}</p>
-    <p>Speaker: {{talk.speaker.speaker_name}}</p>
-    <!-- <p> {{rating_list}}</p> -->
-</div>
-<div id="Area" ></div>
+
+
 <script>
   myvar = '{{rating_list|tojson}}';
   var parsed = JSON.parse(myvar);

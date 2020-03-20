@@ -4,11 +4,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.1/d3.min.js"></script>
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js"></script>
-<div class="well spaced" style="width:97%;">
-<h1>Compare talks</h1>
-<div class="row">
-
-  <div class="col-xs-12 col-lg-6">
+<div class="container" style="width:97%;" >
+  <div class="row">
+    <div class="col">
     <h2>Please select two talks</h2>
     <form id="get-talks">
       <div>
@@ -23,12 +21,16 @@
       <input type="submit">
     </form>
 
-</div>
-
-<section id="compare_talks">
-    <h3>Talk Comparison</h3>
-
-    <dl>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h3>Talk Comparison</h3>
+      <hr>
+    </div>
+  </div>
+  <div class="row" id="compare_talks">
+    <div class="col">
       <dt>Talk Name</dt>
       <dd id="talk_name1">Unknown</dd>
       <dt>Comments</dt>
@@ -37,17 +39,31 @@
       <dd id="views1">Unknown</dd>
       <dt>Duration</dt>
       <dd id="duration1">Unknown</dd>
-
+    </div>
+    <div class="col">
       <dt>Talk Name</dt>
       <dd id="talk_name2">Unknown</dd>
+      <dt>Comments</dt>
       <dd id="comments2">Unknown</dd>
+      <dt>Views</dt>
       <dd id="views2">Unknown</dd>
+      <dt>Duration</dt>
       <dd id="duration2">Unknown</dd>
+      </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div id="Area1" ></div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h3></h3>
+    </div>
+  </div>
 
-    </dl>
-  </section>
-  <div id="Area1" ></div>
-  <div id="Area2" ></div>
+  </div>
+ 
   <script>
     "use strict";
     </script>
