@@ -142,6 +142,25 @@ def talk_detail(talk_id):
 
     return render_template("talk.html", talk=talk, rating_list=rating_list)
 
+@app.route("/name", methods=['GET'])
+def talk_info():
+    """Show information of talk."""
+    name=request.args.get("name")
+    name=name.split("+")
+    name=" ".join(name)
+    rating_list=[]
+    talk=Talk.query.filter(Talk.talk_name == name).first()
+    talk_id=talk.talk_id
+    for r, t in db.session.query(Rating, Talk_Rating).filter(Talk_Rating.rating_id == Rating.rating_id).filter(Talk_Rating.ted_talk_id == talk_id).all():
+        rating_dict={}
+        rating_name=r.rating_name
+        rating_count=t.rating_count
+        rating_dict['name']=rating_name
+        rating_dict['count']=rating_count
+        rating_list.append(rating_dict)
+
+    return render_template("talk.html", talk=talk, rating_list=rating_list)
+
 @app.route("/speakers/<int:speaker_id>", methods=['GET'])
 def speaker_detail(speaker_id):
     """Show information of ."""
