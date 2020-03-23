@@ -6,7 +6,7 @@
 <div class="container" style="width:97%;">
   <div class="row">
     <div class="col">
-      <h1>{{ talk.talk_name }}</h1>
+      <h1>{{ talk.talk_name }} </h1>
       <hr>
     </div>
   </div>
@@ -14,14 +14,16 @@
     <div class="col">
       <h1>Description</h1>
       {{talk.description}}
+      <a href="{{ talk.url}}">Talk </a>
     </div>
     <div class="col">
       <h1>Statistics</h1>
       <p>Released Year: {{ talk.published_year }}</p>
-      <p>Duration {{talk.duration_min}} min {{talk.duration_sec}} sec</p>
+      <p>Duration: {{talk.duration_min}} min {{talk.duration_sec}} sec</p>
       <p>Number of Views: {{"{:,d}".format(talk.num_views)}} </p>
       <p>Number of comments {{"{:,d}".format(talk.num_comments)}}</p>
       <p>Speaker: {{talk.speaker.speaker_name}}</p>
+      <p>Talk Id: {{talk.talk_id}}</p>
     </div>
   </div>
   <div class="row justify-content-md-center">
