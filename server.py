@@ -50,6 +50,7 @@ def speaker(speaker):
     speaker=speaker.split("-")
     speaker=" ".join(speaker)
     speakers=Speaker.query.filter(Speaker.speaker_name == speaker).first()
+    # Why not use Speaker.talks?
     talks=Talk.query.filter(Talk.speakerID==speakers.speaker_id).all()
     talk_list=[]
     for talk in talks:
@@ -63,6 +64,7 @@ def speaker(speaker):
     else:
         return jsonify({"status": "error",
                         "message": "No talk found with that ID"})
+
 
 
 @app.route("/compare/<int:talk1_id>/<int:talk2_id>")
@@ -105,17 +107,9 @@ def compare_talks(talk1_id, talk2_id):
     duration2.append(talk2.duration_min)
     duration2.append(talk2.duration_sec)
     if talk1 and talk2:
+        # Reason for redundancy?
         return jsonify({"status": "success",
-                        "talk_name1": talk1.talk_name,
-                        "num_comments1": (f"{talk1.num_comments:,d}"),
-                        "num_views1": (f"{talk1.num_views:,d}"),
-                        "duration1": duration1,
-                        "talk_name2": talk2.talk_name,
-                        "num_comments2": (f"{talk2.num_comments:,d}"),
-                        "num_views2": (f"{talk2.num_views:,d}"),
-                        "duration2": duration2,
-                        "rating_list" : rating_list
-        })
+                        "talks": [talk1, talk2]})
     else:
         return jsonify({"status": "error",
                         "message": "No talk found with that ID"})
