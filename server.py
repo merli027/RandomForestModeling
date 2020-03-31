@@ -12,8 +12,8 @@ app = Flask(__name__)
 # Required to use Flask sessions and the debug toolbar
 app.secret_key = "ABC"
 
-# Normally, if you use an undefined variable in Jinja2, it fails silently.
-# This is horrible. Fix this so that, instead, it raises an error.
+
+# Causes jijna to raise an error.
 app.jinja_env.undefined = StrictUndefined
 
 
@@ -49,62 +49,67 @@ def speaker(speaker):
     """Find speaker."""
     speaker=speaker.split("-")
     speaker=" ".join(speaker)
+    #query speaker
     speakers=Speaker.query.filter(Speaker.speaker_name == speaker).first()
-    talks=Talk.query.filter(Talk.speakerID==speakers.speaker_id).all()
-    talk_list=[]
-    for talk in talks:
-        talk_list.append(talk.talk_name)
-
     if speakers:
+        #query for all the talks
+        talks=Talk.query.filter(Talk.speakerID==speakers.speaker_id).all()
+        #create a list for all the talks
+        talk_list=[]
+        for talk in talks:
+            talk_list.append(talk.talk_name)
+        #Check for a result in speaker if no speaker error message
         return jsonify({"status": "success",
                         "speaker_job": speakers.speaker_job,
                         "speaker_id": speakers.speaker_id,
                         "talks": talk_list})
     else:
         return jsonify({"status": "error",
-                        "message": "No talk found with that ID"})
+                        "message": "No speaker with that name"})
 
 
 @app.route("/compare/<int:talk1_id>/<int:talk2_id>")
 def compare_talks(talk1_id, talk2_id):
     """Compare talks."""
+    #Get talks
     talk1=Talk.query.get(int(talk1_id))
     talk2=Talk.query.get(int(talk2_id))
-    
-    rating_dict1_complete={}
-    rating_dict1_complete["name"]=talk1.talk_name
-    rating_list1=[]
-    for r, t in db.session.query(Rating, Talk_Rating).filter(Talk_Rating.rating_id == Rating.rating_id).filter(Talk_Rating.ted_talk_id == talk1_id).all():
-        rating_dict1={}
-        rating_name=r.rating_name
-        rating_count=t.rating_count
-        rating_dict1['rating']=rating_name
-        rating_dict1['count']=rating_count
-        rating_list1.append(rating_dict1)
-    rating_dict1_complete["values"]= rating_list1
-    
-    rating_dict2_complete={}
-    rating_dict2_complete["name"]=talk2.talk_name
-    rating_list2=[]
-    for r, t in db.session.query(Rating, Talk_Rating).filter(Talk_Rating.rating_id == Rating.rating_id).filter(Talk_Rating.ted_talk_id == talk2_id).all():
-        rating_dict2={}
-        rating_name=r.rating_name
-        rating_count=t.rating_count
-        rating_dict2['rating']=rating_name
-        rating_dict2['count']=rating_count
-        rating_list2.append(rating_dict2)
-    rating_dict2_complete["values"]= rating_list2
-
-    rating_list=[]
-    rating_list.append(rating_dict1_complete)
-    rating_list.append(rating_dict2_complete)
-    duration1=[]
-    duration1.append(talk1.duration_min)
-    duration1.append(talk1.duration_sec)
-    duration2=[]
-    duration2.append(talk2.duration_min)
-    duration2.append(talk2.duration_sec)
-    if talk1 and talk2:
+    if talk1 is not None and talk2 is not None:
+        #create a dictionary for each talk {"name": talk name, {values: {rating: funny, count: 454},{rating: OK, count: 344}, etc. }}
+        rating_dict1_complete={}
+        rating_dict1_complete["name"]=talk1.talk_name
+        rating_list1=[]
+        for r, t in db.session.query(Rating, Talk_Rating).filter(Talk_Rating.rating_id == Rating.rating_id).filter(Talk_Rating.ted_talk_id == talk1_id).all():
+            rating_dict1={}
+            rating_name=r.rating_name
+            rating_count=t.rating_count
+            rating_dict1['rating']=rating_name
+            rating_dict1['count']=rating_count
+            rating_list1.append(rating_dict1)
+        rating_dict1_complete["values"]= rating_list1
+        #create a dictionary for 2nd rating
+        rating_dict2_complete={}
+        rating_dict2_complete["name"]=talk2.talk_name
+        rating_list2=[]
+        for r, t in db.session.query(Rating, Talk_Rating).filter(Talk_Rating.rating_id == Rating.rating_id).filter(Talk_Rating.ted_talk_id == talk2_id).all():
+            rating_dict2={}
+            rating_name=r.rating_name
+            rating_count=t.rating_count
+            rating_dict2['rating']=rating_name
+            rating_dict2['count']=rating_count
+            rating_list2.append(rating_dict2)
+        rating_dict2_complete["values"]= rating_list2
+        #appending the dictionaries into a list to pass in json
+        rating_list=[]
+        rating_list.append(rating_dict1_complete)
+        rating_list.append(rating_dict2_complete)
+        #swithing duration to min and seconds
+        duration1=[]
+        duration1.append(talk1.duration_min)
+        duration1.append(talk1.duration_sec)
+        duration2=[]
+        duration2.append(talk2.duration_min)
+        duration2.append(talk2.duration_sec)
         return jsonify({"status": "success",
                         "talk_name1": talk1.talk_name,
                         "num_comments1": (f"{talk1.num_comments:,d}"),
@@ -119,9 +124,6 @@ def compare_talks(talk1_id, talk2_id):
     else:
         return jsonify({"status": "error",
                         "message": "No talk found with that ID"})
-
-    #return render_template("compare.html", talk1=talk1, talk2=talk2)
-
 @app.route("/compare")
 def compare():
     return render_template("compare.html")
@@ -129,7 +131,7 @@ def compare():
 @app.route("/talks/<int:talk_id>", methods=['GET'])
 def talk_detail(talk_id):
     """Show information of talk."""
-
+    #query information and create a rating list to hold all the rating names and counts
     rating_list=[]
     talk=Talk.query.get(talk_id)
     for r, t in db.session.query(Rating, Talk_Rating).filter(Talk_Rating.rating_id == Rating.rating_id).filter(Talk_Rating.ted_talk_id == talk_id).all():
@@ -145,10 +147,12 @@ def talk_detail(talk_id):
 @app.route("/name", methods=['GET'])
 def talk_info():
     """Show information of talk."""
+    #format the name for query
     name=request.args.get("name")
     name=name.split("+")
     name=" ".join(name)
     rating_list=[]
+    #query the talk and get ID
     talk=Talk.query.filter(Talk.talk_name == name).first()
     talk_id=talk.talk_id
     for r, t in db.session.query(Rating, Talk_Rating).filter(Talk_Rating.rating_id == Rating.rating_id).filter(Talk_Rating.ted_talk_id == talk_id).all():

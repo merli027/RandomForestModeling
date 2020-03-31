@@ -6,6 +6,10 @@ function showSpeaker(evt){
     console.log(speakerName);
 
     $.get(url, (data) => {
+        if (data.status === "error"){
+            alert(data.message)
+        }
+        else{
         $('#speaker-id').text(data.speaker_id);
         $('#speaker-job').text(data.speaker_job);
         
@@ -19,8 +23,7 @@ function showSpeaker(evt){
         }
 
         document.getElementById("talks").appendChild(list);
-    })
-};
+    }}) };
 $("#get-speaker").on('submit', showSpeaker);
 
 
